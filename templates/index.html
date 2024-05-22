@@ -1,0 +1,127 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Ice Breaker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
+    <div class="spinner-container" id="spinner-container" style="display: none;">
+        <i id="loading-spinner" class="fas fa-spinner fa-spin"></i>
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <form id="name-form">
+            <div class="split left">
+
+                <div class="centered">
+                    <table width="100%">
+                        <tr>
+                            <td colspan="2">
+                                <h2 style="color:#fff;">AZURE OPENAI API KEY <sup>*</sup></h2>
+                                <input type="password" 
+                                id="AZURE_OPENAI_API_KEY" name="AZURE_OPENAI_API_KEY"
+                                    placeholder="ENTER AZURE OPENAI API KEY">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h2 style="color:#fff;">AZURE DEPLOYMENT <sup>*</sup></h2>
+                                <input type="text" 
+                                  id="azure_deployment" 
+                                    name="azure_deployment" placeholder="ENTER AZURE DEPLOYMENT">
+                            </td>
+                            <td>
+                                <h2 style="color:#fff;">API VERSION <sup>*</sup></h2> 
+                                <input type="text" 
+                                    id="api_version" name="api_version" 
+                                    placeholder="ENTER API VERSION">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h2 style="color:#fff;">AZURE ENDPOINT<sup>*</sup> </h2> 
+                                <input type="text" 
+                                id="azure_endpoint" name="azure_endpoint" placeholder="ENTER AZURE ENDPOINT">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h2 style="color:#fff;">
+                                    PROXYCURL API KEY <sup>*</sup><br/><a style="font-size:9px"
+                                        href="https://nubela.co/proxycurl/">Click here to get the key </a></h2>
+                                <input 
+                                    type="password" id="PROXYCURL_API_KEY" name="PROXYCURL_API_KEY"
+                                    placeholder="Enter Key">
+                            </td>
+                            <td>
+                                <h2 style="color:#fff;">
+                                    SERPAPI API KEY <sup>*</sup><br/><a style="font-size:9px"
+                                        href="https://serpapi.com/users/sign_in">Click here to get the key </a></h2>
+                                <input type="password" id="SERPAPI_API_KEY" name="SERPAPI_API_KEY"
+                                    placeholder="Enter Key" >
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="split right">
+                <div class="centered">
+                    <h1>Ice Breaker</h1>
+
+                    <input type="text" id="name" name="name" placeholder="Enter name">
+                    <button id="magic-button" type="submit">GET</button>
+        </form>
+        <div id="result">
+            <img id="profile-pic" src="" alt="Profile Picture"
+                style="display: none; max-width: 100%; height: auto; border-radius: 50%; margin-bottom: 20px;">
+            <h2>Ice Breakers</h2>
+            <div id="ice-breakers"></div>
+            <h2>Topics of Interest</h2>
+            <div id="topics-of-interest"></div>
+        </div>
+    </div>
+    </div>
+
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#name-form').on('submit', function (e) {
+                e.preventDefault();
+                $('#spinner-container').show();
+                $.ajax({
+                    url: '/process',
+                    data: $('#name-form').serialize(),
+                    type: 'POST',
+                    success: function (response) {
+                        //$('#profile-pic').attr('src', response.picture_url); // Update the profile picture src attribute
+                        //$('#profile-pic').show(); // Show the profile picture
+                        // $('#summary-and-facts').text(JSON.parse(response.summary_and_facts).properties.summary.description);
+                        // $('#interests').html("<ul>" + Object.values(JSON.parse(response.summary_and_facts).properties.facts).map(ice_breaker => '<li>' + ice_breaker + '</li>').join('')+"</ul>");
+                        if (JSON.parse(response.ice_breakers).ice_breakers != undefined)
+                            $('#ice-breakers').html('<ul style="color:#fff">' + Object.values(JSON.parse(response.ice_breakers).ice_breakers).map(ice_breaker => '<li>' + ice_breaker + '</li>').join('') + '</ul>');
+                        if (JSON.parse(response.interests).ice_breakers != undefined)
+                            $('#topics-of-interest').html('<ul style="color:#fff">' + Object.values(JSON.parse(response.interests).ice_breakers).map(ice_breaker => '<li>' + ice_breaker + '</li>').join('') + '</ul>');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    },
+                    complete: function () {
+                        $('#spinner-container').hide();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

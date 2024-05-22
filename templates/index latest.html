@@ -1,0 +1,250 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Ice Breaker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
+    <div class="spinner-container" id="spinner-container" style="display: none;">
+        <i id="loading-spinner" class="fas fa-spinner fa-spin"></i>
+    </div>
+	<script>
+    function showFeedback(inputId) {
+        const feedbackElement = document.getElementById(`feedback-${inputId}`);
+        feedbackElement.innerHTML = 'Focus on this field!';
+    }
+	
+        function validateAndSubmit() {
+        // Validate all required fields before submitting the form
+        const requiredInputs = document.querySelectorAll('[required]');
+        const errorBox = document.getElementById('error-box');
+        let isValid = true;
+
+        // Clear previous error messages
+        errorBox.innerHTML = '';
+
+        requiredInputs.forEach(input => {
+            if (input.value.trim() === '') {
+                isValid = false;
+                errorBox.innerHTML += `<p>Please fill in the required field: ${input.getAttribute('placeholder')}</p>`;
+				
+            }
+        });
+
+        if (isValid) {
+            alert('Form submitted successfully!');
+            // You can add additional logic to submit the form or perform other actions
+			
+        }
+		return isValid;
+    }
+    
+</script>
+</head>
+<body>
+   <style>
+        body {
+            background-color: #333;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+         
+        }
+
+        th {
+            background-color: #555;
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        input {
+            width: calc(100% - 16px);
+            padding: 8px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #ffcc00;
+        }
+
+        a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-size: 9px;
+        }
+
+        .azure-section {
+            background-color: #444;
+            border: 1px solid #555;
+        }
+
+        .feedback-message {
+            color: #ffcc00;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+		   button {
+            padding: 10px;
+            background-color: #ffcc00;
+            color: #333;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #fff;
+            color: #333;
+        }
+
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #profile-pic {
+            max-width: 100%;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        #ice-breakers,
+        #topics-of-interest {
+            margin-top: 10px;
+        }
+		#error-box {
+            color: black;
+            margin-top: 10px;
+        }
+    </style>    
+	
+	<div class="container">
+		<form id="name-form">
+		<div class="split left">
+					 
+			 <div class="centered">
+								
+				<table>
+					<tr class="azure-section">
+						<td>
+							<h2>AZURE_OPENAI_API_KEY</h2>
+							<input type="password" id="AZURE_OPENAI_API_KEY" name="AZURE_OPENAI_API_KEY" placeholder="Enter Key" onfocus="showFeedback('AZURE_OPENAI_API_KEY')" required>
+							<div id="feedback-AZURE_OPENAI_API_KEY" class="feedback-message"></div>
+						</td>
+					
+						<td>
+							<h2>azure_deployment</h2>
+							<input type="text" id="azure_deployment" name="azure_deployment" placeholder="Enter Key" onfocus="showFeedback('azure_deployment')" required>
+							<div id="feedback-azure_deployment" class="feedback-message"></div>
+						</td>.
+						<tr class="azure-section">
+						<td>
+							<h2>api_version</h2>
+							<input type="text" id="api_version" name="api_version" placeholder="Enter Key" onfocus="showFeedback('api_version')" required>
+							<div id="feedback-api_version" class="feedback-message"></div>
+						</td>
+										
+						<td>
+							<h2>azure_endpoint</h2>
+							<input type="text" id="azure_endpoint" name="azure_endpoint" placeholder="Enter Key" onfocus="showFeedback('azure_endpoint')" required>
+							<div id="feedback-azure_endpoint" class="feedback-message"></div>
+						</td>
+						
+					</tr>
+					<tr>
+						<td>
+							<h2>PROXYCURL_API_KEY <a href="https://nubela.co/proxycurl/" target="_blank">Click here to get the key</a></h2>
+							<input type="password" id="PROXYCURL_API_KEY" name="PROXYCURL_API_KEY" placeholder="Enter Key" onfocus="showFeedback('PROXYCURL_API_KEY')" required>
+							<div id="feedback-PROXYCURL_API_KEY" class="feedback-message"></div>
+						</td>
+						<td>
+							<h2>SERPAPI_API_KEY <a href="https://serpapi.com/users/sign_in" target="_blank">Click here to get the key</a></h2>
+							<input type="password" id="SERPAPI_API_KEY" name="SERPAPI_API_KEY" placeholder="Enter Key" onfocus="showFeedback('SERPAPI_API_KEY')" required>
+							<div id="feedback-SERPAPI_API_KEY" class="feedback-message"></div>
+						</td>
+					</tr>
+				</table>
+
+
+		</div>
+
+		<div class="split right">
+		  <div class="centered">
+			  <h1>Ice Breaker</h1>
+				<div id="error-box"></div>
+					  <input type="text" id="name" name="name" placeholder="Enter name" required>
+					  <button id="magic-button" type="submit" >Do Your Magic</button>
+				</form>
+				<div id="result">
+					<img id="profile-pic" src="" alt="Profile Picture" style="display: none;">
+					<h2>Ice Breakers</h2>
+					<div id="ice-breakers"></div>
+					<h2>Topics of Interest</h2>
+					<div id="topics-of-interest"></div>
+				</div>
+		  </div>
+		</div>
+	
+      
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#name-form').on('submit', function (e) {
+                e.preventDefault();
+                $('#spinner-container').show();
+				
+				if(validateAndSubmit()===true)
+				{
+					$.ajax({
+						url: '/process',
+						data: $('#name-form').serialize(),
+						type: 'POST',
+						success: function (response) {
+							$('#profile-pic').attr('src', response.picture_url); // Update the profile picture src attribute
+							$('#profile-pic').show(); // Show the profile picture
+							// $('#summary-and-facts').text(JSON.parse(response.summary_and_facts).properties.summary.description);
+							// $('#interests').html("<ul>" + Object.values(JSON.parse(response.summary_and_facts).properties.facts).map(ice_breaker => '<li>' + ice_breaker + '</li>').join('')+"</ul>");
+							if(JSON.parse(response.ice_breakers).ice_breakers!=undefined)
+								$('#ice-breakers').html('<ul>' +Object.values(JSON.parse(response.ice_breakers).ice_breakers).map(ice_breaker => '<li>' + ice_breaker + '</li>').join('') + '</ul>');
+							if(JSON.parse(response.interests).ice_breakers!=undefined)
+								$('#topics-of-interest').html('<ul>' + Object.values(JSON.parse(response.interests).ice_breakers).map(ice_breaker => '<li>' + ice_breaker + '</li>').join('') + '</ul>');
+						},
+						error: function (error) {
+							console.log(error);
+						},
+						complete: function () {
+							$('#spinner-container').hide();
+						}
+					});
+				}
+            });
+        });
+    </script>
+</body>
+</html>
